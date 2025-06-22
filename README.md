@@ -2,14 +2,14 @@
 
 A visually calming MoonPhase app built using SwiftUI. It shows the current moon phase based on the selected date and location with animated stars and glowing moon visuals. Built as part of my internship at Sedin Technologies.
 
-##Requirements
+## Requirements
 
 - macOS 13.0+
 - Xcode 15.0+
 - iOS 16.0+ (Simulator or real device)
 - Swift 5.9+
 
-##Installation
+## Installation
 
 In your terminal, run the following commands:
 
