@@ -32,8 +32,8 @@
 		31E795632E0547DD000A1E86 = {
 			isa = PBXGroup;
 			children = (
-				31E7956E2E0547DD000A1E86 /* MoonPhase */,
 				31E7956D2E0547DD000A1E86 /* Products */,
+				31E7956E2E0547DD000A1E86 /* MoonPhase */,
 			);
 			sourceTree = "<group>";
 		};
