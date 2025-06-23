@@ -9,6 +9,11 @@ A visually calming MoonPhase app built using SwiftUI. It shows the current moon 
 - iOS 16.0+ (Simulator or real device)
 - Swift 5.9+
 
+## Screenshots
+
+![MoonPhase App](moonphase1.png)
+![MoonPhase App](moonphase2.png)
+
 ## Installation
 
 In your terminal, run the following commands:
