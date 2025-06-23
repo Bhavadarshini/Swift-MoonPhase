@@ -12,32 +12,37 @@ struct ResultView: View {
     var phase: String
     var date: Date
     var city: String
-    
+
+    @Environment(\.dismiss) var dismiss
+
     @State private var glow = false
     @State private var stars: [Star] = []
     let starCount = 35
-    
+
     var body: some View {
         ZStack {
             Image("resultbg")
                 .resizable()
                 .scaledToFill()
                 .ignoresSafeArea()
-            
+
             LinearGradient(colors: [Color.black.opacity(0.2), Color.black.opacity(0.75)],
                            startPoint: .top,
                            endPoint: .bottom)
-            .ignoresSafeArea()
+                .ignoresSafeArea()
+
             ForEach(stars) { star in
                 Circle()
                     .fill(Color.white.opacity(0.8))
                     .frame(width: star.size, height: star.size)
                     .position(x: star.x, y: star.y)
             }
+
             VStack(spacing: 30) {
                 VStack(spacing: 8) {
                     Text("🌙")
                         .font(.system(size: 44))
+
                     Text("Moon Phase Revealed")
                         .font(.system(size: 28, weight: .bold, design: .serif))
                         .foregroundStyle(
@@ -46,6 +51,7 @@ struct ResultView: View {
                         .shadow(color: .yellow.opacity(0.3), radius: 3)
                         .multilineTextAlignment(.center)
                 }
+
                 VStack(spacing: 4) {
                     Text("In \(city), on \(formattedDate(date))")
                     Text("the moon phase is:")
@@ -54,10 +60,12 @@ struct ResultView: View {
                 .foregroundColor(.white.opacity(0.95))
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 20)
+
                 Text(phase)
                     .font(.system(size: 26, weight: .semibold, design: .rounded))
                     .foregroundColor(.yellow)
                     .shadow(color: .yellow.opacity(0.6), radius: 4)
+
                 Image(phaseImageName(for: phase))
                     .resizable()
                     .aspectRatio(contentMode: .fit)
@@ -66,11 +74,12 @@ struct ResultView: View {
                     .scaleEffect(glow ? 1.015 : 1.0)
                     .onAppear { glow = true }
                     .animation(.easeInOut(duration: 2).repeatForever(autoreverses: true), value: glow)
+
                 VStack(spacing: 10) {
                     Text("Did You Know?")
                         .font(.headline)
                         .foregroundColor(.white)
-                    
+
                     Text(funFact(for: phase))
                         .font(.system(size: 16))
                         .foregroundColor(.white.opacity(0.95))
@@ -85,7 +94,7 @@ struct ResultView: View {
                         .stroke(Color.white.opacity(0.2), lineWidth: 1)
                 )
                 .padding(.horizontal)
-                
+
                 Spacer(minLength: 16)
             }
             .padding(.top, 10)
@@ -94,7 +103,29 @@ struct ResultView: View {
             generateStars()
             animateStars()
         }
+        .navigationBarBackButtonHidden(true)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button(action: {
+                    dismiss()
+                }) {
+                    HStack(spacing: 4) {
+                        Image(systemName: "chevron.left")
+                            .font(.system(size: 17, weight: .medium))
+                            .foregroundStyle(.white)
+
+                        Text("Back")
+                            .font(.system(size: 20, weight: .bold, design: .serif))
+                            .foregroundStyle(
+                                LinearGradient(colors: [.white, .yellow], startPoint: .leading, endPoint: .trailing)
+                            )
+                            .shadow(color: .yellow.opacity(0.3), radius: 2)
+                    }
+                }
+            }
+        }
     }
+
     func generateStars() {
         let screenWidth = UIScreen.main.bounds.width
         let screenHeight = UIScreen.main.bounds.height
@@ -107,7 +138,7 @@ struct ResultView: View {
             )
         }
     }
-    
+
     func animateStars() {
         Timer.scheduledTimer(withTimeInterval: 0.03, repeats: true) { _ in
             for i in 0..<stars.count {
@@ -119,12 +150,13 @@ struct ResultView: View {
             }
         }
     }
+
     func formattedDate(_ date: Date) -> String {
         let formatter = DateFormatter()
         formatter.dateStyle = .long
         return formatter.string(from: date)
     }
-    
+
     func phaseImageName(for phase: String) -> String {
         switch phase {
         case "🌑 New Moon": return "new_moon"
@@ -138,6 +170,7 @@ struct ResultView: View {
         default: return "unknown"
         }
     }
+
     func funFact(for phase: String) -> String {
         switch phase {
         case "🌑 New Moon":

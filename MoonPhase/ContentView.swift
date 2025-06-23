@@ -17,13 +17,14 @@ struct ContentView: View {
                     .brightness(-0.48)
                     .opacity(0.89)
                     .ignoresSafeArea()
+
                 ForEach(0..<35, id: \.self) { i in
                     Circle()
                         .fill(Color.white.opacity(0.4))
                         .frame(width: CGFloat.random(in: 1.5...4.0))
                         .position(
-                            x:CGFloat.random(in: 0...UIScreen.main.bounds.width),
-                            y:CGFloat.random(in: 0...UIScreen.main.bounds.height)
+                            x: CGFloat.random(in: 0...UIScreen.main.bounds.width),
+                            y: CGFloat.random(in: 0...UIScreen.main.bounds.height)
                         )
                         .opacity(animateStars ? 1 : 0.2)
                         .animation(
@@ -33,6 +34,7 @@ struct ContentView: View {
                             value: animateStars
                         )
                 }
+
                 VStack(spacing: 30) {
                     Text("NovaMoon")
                         .font(.custom("Georgia-Bold", size: 36))
@@ -64,11 +66,18 @@ struct ContentView: View {
                             .foregroundColor(.white)
                             .shadow(color: .white.opacity(0.6), radius: 6)
                     }
+
                     VStack(spacing: 20) {
-                        VStack(alignment: .leading) {
-                            Text("🗓️ Choose a Night")
-                                .font(.system(size: 18, weight: .semibold, design: .rounded))
-                                .foregroundColor(.white.opacity(0.85))
+                        VStack(alignment: .leading, spacing: 6) {
+                            Label {
+                                Text("Choose a Night")
+                                    .font(.custom("Georgia-Bold", size: 22))
+                                    .foregroundColor(.white)
+                                    .shadow(color: .white.opacity(0.3), radius: 10, x: 0, y: 4)
+                            } icon: {
+                                Image(systemName: "calendar")
+                                    .foregroundColor(.white)
+                            }
 
                             HStack {
                                 DatePicker("", selection: $selectedDate, displayedComponents: [.date])
@@ -81,10 +90,16 @@ struct ContentView: View {
                             .foregroundColor(.white)
                         }
 
-                        VStack(alignment: .leading) {
-                            Text("🌍 Your City of Skywatching")
-                                .font(.system(size: 18, weight: .semibold, design: .rounded))
-                                .foregroundColor(.white.opacity(0.85))
+                        VStack(alignment: .leading, spacing: 6) {
+                            Label {
+                                Text("Your City of Skywatching")
+                                    .font(.custom("Georgia-Bold", size: 22))
+                                    .foregroundColor(.white)
+                                    .shadow(color: .white.opacity(0.3), radius: 10, x: 0, y: 4)
+                            } icon: {
+                                Image(systemName: "location")
+                                    .foregroundColor(.white)
+                            }
 
                             TextField("Ex: Chennai, Tokyo, Paris", text: $city)
                                 .padding(15)
@@ -95,6 +110,7 @@ struct ContentView: View {
                     }
                     .padding(.horizontal)
                     .padding(.top, 80)
+
                     Button(action: {
                         if !city.isEmpty {
                             let dateOnly = Calendar.current.date(from: Calendar.current.dateComponents([.year, .month, .day], from: selectedDate)) ?? selectedDate
@@ -109,17 +125,22 @@ struct ContentView: View {
                                 showResult = true
                             }
                         }
-                    }){
-                        Text("🔭 Reveal the Moon's Phase")
-                            .bold()
+                    }) {
+                        Text("Reveal the Moon's Phase")
+                            .font(.system(size: 18, weight: .bold, design: .serif))
                             .frame(maxWidth: .infinity)
                             .padding()
-                            .background(Color.white.opacity(0.9))
-                            .foregroundColor(.accentColor)
+                            .background(
+                                LinearGradient(colors: [Color.white.opacity(0.9), Color.white.opacity(0.9)],
+                                               startPoint: .topLeading, endPoint: .bottomTrailing)
+                            )
+                            .foregroundColor(Color.black.opacity(0.8))
                             .cornerRadius(14)
+                            .shadow(color: Color.black.opacity(0.15), radius: 4, x: 0, y: 2)
                     }
                     .padding(.horizontal)
-                     NavigationLink(
+
+                    NavigationLink(
                         destination: ResultView(phase: predictedPhase, date: selectedDate, city: city),
                         isActive: $showResult
                     ) {
