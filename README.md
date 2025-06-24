@@ -20,7 +20,7 @@ In your terminal, run the following commands:
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/Bhavadarshini/MoonPhase.git
+git clone https://github.com/Bhavadarshini/Swift-MoonPhase.git
 
 # 2. Navigate into the project
 cd Swift-MoonPhase
